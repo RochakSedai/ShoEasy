@@ -5,13 +5,23 @@ from .forms import OrderForm
 from .models import Order, Payment, OrderProduct
 import datetime
 import jsons
+import requests
 from store.models import Product
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from django.views import View
+import xml.etree.ElementTree as ET
 # Create your views here.
 
-def payments(request):
-    return render(request, 'orders/payments.html')
+class EsewaRequestView(View):
+    def get(self, request, *args, **kwargs):
+        order = Order.objects.get(user=request.user, is_ordered=False)
+        
+        #print(order)
+        context = {
+            'order': order,
+        }
+        return render(request, 'orders/esewarequest.html', context)
     # body = jsons.loads(request.body)
     # order = Order.objects.get(user=request.user, is_ordered=False, order_number=body['orderID'])
 
@@ -74,6 +84,35 @@ def payments(request):
     #     'transID': payment.payment_id,
     # }
     # return JsonResponse(data)
+
+class EsewaVerifyView(View):
+    def get(self, request, *args, **kwargs):
+        oid = request.GET.get('oid')
+        amt = request.GET.get('amt')
+        refId = request.GET.get('refId')
+
+        url ="https://uat.esewa.com.np/epay/transrec"
+        d = {
+            'amt': amt,
+            'scd': 'EPAYTEST',
+            'rid': refId,
+            'pid':oid,
+        }
+        resp = requests.post(url, d)
+        root = ET.fromstring(resp.content)
+        status = root[0].text.strip()
+
+        order_id = oid.split('_')[1]
+        ord_object = Order.objects.get(id=order_id)
+
+        if status == 'Success':
+            ord_object.is_ordered = True
+            ord_object.save()
+            return redirect('home')
+        else:
+            return redirect('esewarequest')
+        
+
 
 
 
