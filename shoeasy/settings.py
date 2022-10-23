@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'store',
     'carts',
     'orders',
+    'shoEasyAPI',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
