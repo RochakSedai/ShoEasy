@@ -12,20 +12,16 @@ class Category_Serializer(serializers.ModelSerializer):
 
 class Product_Serializer(serializers.ModelSerializer):
     category = Category_Serializer()
+    reviews = serializers.StringRelatedField(many=True)
     class Meta:
         model = Product
-        fields = ['product_name', 'description', 'price', 'images', 'category']
+        fields = ['product_name', 'description', 'price', 'images', 'category', 'reviews']
 
-class ReviewRating_Serializer(serializers.ModelSerializer):
-    product = Product_Serializer()
+# class ReviewRating_Serializer(serializers.ModelSerializer):
+#     product = Product_Serializer()
     
-    class Meta:
-        model = ReviewRating
-        fields = ['product', 'review', 'rating']
+#     class Meta:
+#         model = ReviewRating
+#         fields = ['product', 'review', 'rating']
 
-    # def create(self, validated_data):
-    #     products_data = validated_data.pop('product')
-    #     reviewrating = ReviewRating.objects.create(**validated_data)
-    #     for product_data in products_data:
-    #         Product.objects.create(reviewrating=reviewrating, **product_data)
-    #     return reviewrating
+   
