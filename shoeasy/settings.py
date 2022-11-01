@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'orders',
     'shoEasyAPI',
     'rest_framework',
+    'django_filters',
+    
 ]
 
 MIDDLEWARE = [
