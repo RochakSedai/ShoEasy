@@ -1,5 +1,6 @@
 from ast import keyword
 from django.shortcuts import render
+from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -40,15 +41,14 @@ class ProductReview_APIView(generics.ListAPIView):
     
 
 def test(request):
-    keyword = 'addidas sports'
-    responses = requests.get('http://127.0.0.1:8000/shoEasy-api/').filter(Q(description__icontains=keyword) |  Q(product_name__icontains=keyword)).json()
-    #print(responses['product_name'])
-    keyword = 'addidas sports'
-    #data = responses.filter(Q(description__icontains=keyword) |  Q(product_name__icontains=keyword))
+    keyword = 'adidas navy'
+    responses = requests.get(f'http://127.0.0.1:8000/shoEasy-api/?search={keyword}').json()
     print(responses)
-    # for response in responses:
-    #     print(response)
-    #     print(response['product']['product_name'])
-    #     print(response['review'])
-        #print(response['product']['product_name'].rating)
-        #print(list(response.product_name))
+    for response in responses:
+        print(response)
+        print(response['product_name'])
+        print(response['reviews'])
+        print(response['category']['category_name'])
+
+    return HttpResponse('Hey Searching is successful man..')
+        
