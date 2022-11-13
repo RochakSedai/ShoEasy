@@ -74,6 +74,7 @@ class ReviewRating(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return '%s , %.2f' % (self.review, self.rating)
+        return  '%s %s' %(self.review,self.rating)
+        #return (('%s' %(self.review))  n ('%.2f' % (self.rating)))
 
     

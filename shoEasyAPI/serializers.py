@@ -13,6 +13,9 @@ class Category_Serializer(serializers.ModelSerializer):
 class Product_Serializer(serializers.ModelSerializer):
     category = Category_Serializer()
     reviews = serializers.StringRelatedField(many=True)
+    
+
+    #rating = serializers.FloatField(many=True)
     class Meta:
         model = Product
         fields = ['product_name', 'description', 'price', 'images', 'category', 'reviews']

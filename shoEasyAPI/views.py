@@ -10,6 +10,7 @@ import requests
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics, filters
+import urllib
 
 
 
@@ -35,20 +36,27 @@ class ProductReview_APIView(generics.ListAPIView):
         
         filter_backends = [filters.SearchFilter]
 
+        print(filter_backends)
+
         search_fields = ['product_name']
     
 
     
 
 def test(request):
-    keyword = 'adidas navy'
+    keyword = 'adidas'
     responses = requests.get(f'http://127.0.0.1:8000/shoEasy-api/?search={keyword}').json()
     print(responses)
     for response in responses:
         print(response)
-        print(response['product_name'])
-        print(response['reviews'])
-        print(response['category']['category_name'])
+        name = response['product_name']
+        print(name)
+        url = response['images']
+        print(url)
+        testImage = urllib.request
+        testImage.urlretrieve(url, f'Json_reponse_images/{name}.jpg')
+
+        #print(response['category']['category_name'])
 
     return HttpResponse('Hey Searching is successful man..')
         

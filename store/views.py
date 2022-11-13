@@ -69,8 +69,18 @@ def search(request):
     
     if 'keyword' in request.GET:
         keyword = request.GET['keyword']
+        products = Product.objects.none()
+        print(products)
         if keyword:
-            products = Product.objects.order_by('-created_date').filter(Q(description__icontains=keyword) |  Q(product_name__icontains=keyword))
+            for word in keyword.split():
+                print(word)
+                product = Product.objects.order_by('-created_date').filter(Q(description__icontains=word) |  Q(product_name__icontains=word))
+                print(product)
+                if list(product) != []:
+                    print('HI')
+                    products = products | product
+                    
+            print(products)
             product_count = products.count()
         else:
             products = None
