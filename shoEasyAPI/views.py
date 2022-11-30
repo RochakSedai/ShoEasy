@@ -36,9 +36,9 @@ class ProductReview_APIView(generics.ListAPIView):
         
         filter_backends = [filters.SearchFilter]
 
-        print(filter_backends)
-
         search_fields = ['product_name']
+
+
     
 
     

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'shoEasyAPI',
     'rest_framework',
     'django_filters',
+    'django.contrib.postgres',
     
 ]
 
